@@ -50,7 +50,6 @@ LOCAL_CFLAGS := \
 	-DDISABLE_SYSTEMD \
 	-DPCSCD_PATH='"$(PCSCD_PATH)"' \
 	-DHAVE_CONFIG_H \
-	-Dmain=pcsc_main \
 	-DLIBPCSCLITE
 
 LOCAL_C_INCLUDES += \
@@ -110,7 +109,6 @@ LOCAL_CFLAGS := \
 	-DDISABLE_SYSTEMD \
 	-DPCSCD_PATH='"$(PCSCD_PATH)"' \
 	-DHAVE_CONFIG_H \
-	-Dmain=pcsc_main \
 	-DPCSCD \
 	-DSIMCLIST_NO_DUMPRESTORE
 
@@ -120,6 +118,4 @@ LOCAL_PRELINK_MODULE := false
 LOCAL_MODULE := pcscd
 LOCAL_MODULE_TAGS := eng
 
-include $(BUILD_SHARED_LIBRARY)
-
-$(call import-module,libusb)
+include $(BUILD_EXECUTABLE)
