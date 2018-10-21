@@ -13,9 +13,9 @@ LOCAL_PATH := $(call my-dir)
 LIBUSB_PATH := $(LOCAL_PATH)/../../libusb
 LIBCCID_PATH := $(LOCAL_PATH)/../../CCID
 
-# libusb
+# libusb1.0
 include $(CLEAR_VARS)
-LOCAL_MODULE := libusb
+LOCAL_MODULE := libusb1.0
 LOCAL_SRC_FILES := $(LIBUSB_PATH)/android/libs/$(TARGET_ARCH_ABI)/libusb1.0.so
 LOCAL_EXPORT_C_INCLUDES := $(LIBUSB_PATH)/libusb
 include $(PREBUILT_SHARED_LIBRARY)
