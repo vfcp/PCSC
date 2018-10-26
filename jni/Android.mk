@@ -28,4 +28,5 @@ LOCAL_EXPORT_C_INCLUDES := $(LIBCCID_PATH)
 include $(PREBUILT_SHARED_LIBRARY)
 
 include $(LOCAL_PATH)/libpcsclite.mk
+include $(LOCAL_PATH)/libpcsclite_static.mk
 include $(LOCAL_PATH)/pcscd.mk
