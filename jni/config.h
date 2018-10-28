@@ -171,7 +171,7 @@
 #define USE_IPCDIR PCSCD_PATH "/ipc"
 
 /* Use serial conf file mechanism */
-#define USE_SERIAL 1
+/* #undef USE_SERIAL */
 
 /* Use USB hotplug mechanism */
 #define USE_USB 1
