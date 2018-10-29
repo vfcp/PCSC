@@ -149,7 +149,7 @@
 #define PCSCD_BINARY PCSCD_PATH "/pcscd"
 
 /* Enabled PC/SC lite features */
-#define PCSCLITE_FEATURES " Linux i686-pc-linux-gnu serial usb usbdropdir=" PCSCD_PATH "/usb ipcdir=" PCSCD_PATH "/ipc configdir=" PCSCD_PATH "/etc"
+#define PCSCLITE_FEATURES " Linux i686-pc-linux-gnu usb usbdropdir=" PCSCD_PATH "/usb ipcdir=" PCSCD_PATH "/ipc configdir=" PCSCD_PATH "/etc"
 
 /* directory containing USB drivers */
 #define PCSCLITE_HP_DROPDIR PCSCD_PATH "/usb"
