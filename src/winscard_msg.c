@@ -133,10 +133,24 @@ INTERNAL int ClientSetupSession(uint32_t *pdwClientID)
 
 	socketName = getSocketName();
 	svc_addr.sun_family = AF_UNIX;
+	#ifndef ANDROID
 	strncpy(svc_addr.sun_path, socketName, sizeof(svc_addr.sun_path));
 
 	if (connect(*pdwClientID, (struct sockaddr *) &svc_addr,
 			sizeof(svc_addr.sun_family) + strlen(svc_addr.sun_path) + 1) < 0)
+	#else
+	if (strlen(socketName) + 1 > sizeof(svc_addr.sun_path))
+	{
+		Log2(PCSC_LOG_CRITICAL, "Error: invalid client socket name: %s",
+			socketName);
+		return -1;
+	}
+	svc_addr.sun_path[0] = 0;
+	strncpy(svc_addr.sun_path + 1, socketName, sizeof(svc_addr.sun_path) - 1);
+
+	if (connect(*pdwClientID, (struct sockaddr *) &svc_addr,
+			sizeof(svc_addr.sun_family) + strlen(socketName) + 1) < 0)
+	#endif
 	{
 		Log3(PCSC_LOG_CRITICAL, "Error: connect to client socket %s: %s",
 			socketName, strerror(errno));

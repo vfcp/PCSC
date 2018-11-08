@@ -3501,6 +3501,7 @@ static LONG SCardGetContextAndChannelFromHandleTH(SCARDHANDLE hCard,
  */
 LONG SCardCheckDaemonAvailability(void)
 {
+	#ifndef ANDROID
 	LONG rv;
 	struct stat statBuffer;
 	char *socketName;
@@ -3514,6 +3515,7 @@ LONG SCardCheckDaemonAvailability(void)
 			socketName, strerror(errno));
 		return SCARD_E_NO_SERVICE;
 	}
+	#endif
 
 	return SCARD_S_SUCCESS;
 }

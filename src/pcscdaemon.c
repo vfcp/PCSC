@@ -457,8 +457,11 @@ int main(int argc, char **argv)
 	/*
 	 * test the presence of /var/run/pcscd/pcscd.comm
 	 */
-
+	#ifndef ANDROID
 	rv = stat(PCSCLITE_CSOCK_NAME, &fStatBuf);
+	#else
+	rv = -1;
+	#endif
 
 	/* if the file exist and pcscd was _not_ started by systemd */
 	if (rv == 0 && !SocketActivated)
@@ -808,6 +811,7 @@ static void clean_temp_files(void)
 {
 	int rv;
 
+	#ifndef ANDROID
 	if (!SocketActivated)
 	{
 		rv = remove(PCSCLITE_CSOCK_NAME);
@@ -815,6 +819,7 @@ static void clean_temp_files(void)
 			Log2(PCSC_LOG_ERROR, "Cannot remove " PCSCLITE_CSOCK_NAME ": %s",
 				strerror(errno));
 	}
+	#endif
 
 	rv = remove(PCSCLITE_RUN_PID);
 	if (rv != 0)

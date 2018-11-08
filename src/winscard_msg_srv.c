@@ -139,10 +139,23 @@ INTERNAL int32_t InitializeSocket(void)
 
 	memset(&sa, 0, sizeof sa);
 	sa.un.sun_family = AF_UNIX;
+	#ifndef ANDROID
 	strncpy(sa.un.sun_path, PCSCLITE_CSOCK_NAME, sizeof sa.un.sun_path);
 	(void)remove(PCSCLITE_CSOCK_NAME);
 
 	if (bind(commonSocket, &sa.sa, sizeof sa) < 0)
+	#else
+	if (strlen(PCSCLITE_CSOCK_NAME) + 1 > sizeof(sa.un.sun_path))
+	{
+		Log2(PCSC_LOG_CRITICAL, "Error: invalid server socket name: %s",
+			PCSCLITE_CSOCK_NAME);
+		return -1;
+	}
+	sa.un.sun_path[0] = 0;
+	strncpy(sa.un.sun_path + 1, PCSCLITE_CSOCK_NAME, sizeof(sa.un.sun_path) - 1);
+
+	if (bind(commonSocket, &sa.sa, strlen(PCSCLITE_CSOCK_NAME) + offsetof(struct sockaddr_un, sun_path) + 1) < 0)
+	#endif
 	{
 		Log2(PCSC_LOG_CRITICAL, "Unable to bind common socket: %s",
 			strerror(errno));
@@ -156,10 +169,12 @@ INTERNAL int32_t InitializeSocket(void)
 		return -1;
 	}
 
+	#ifndef ANDROID
 	/*
 	 * Chmod the public entry channel
 	 */
 	(void)chmod(PCSCLITE_CSOCK_NAME, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+	#endif
 
 	return 0;
 }
